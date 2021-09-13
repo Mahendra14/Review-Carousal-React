@@ -4,7 +4,36 @@ import { FaChevronLeft, FaChevronRight, FaQuoteRight } from 'react-icons/fa';
 
 const Review = () => {
   const [index,setIndex] = useState(0);
-  const {id,name,job,image,text} = people[index];
+  const {name,job,image,text} = people[index];
+  const checkIndex = (ind) =>{
+    if(ind < 0){
+      return people.length -1;
+    }
+    if(ind > people.length -1){
+      return 0;
+    }
+    return ind;
+  }
+  const randPerson = () => {
+    let randNum =Math.floor(Math.random() * people.length);
+    if(randNum === index){
+      randNum += 1;
+    }
+    setIndex(checkIndex(randNum));
+  }
+  const prevPerson = () => {
+    setIndex((index) => {
+      const newIndex = index - 1;
+      return checkIndex(newIndex);
+    })
+  }
+  const nextPerson = () => {
+    setIndex((index) => {
+      const newIndex = index + 1;
+      return checkIndex(newIndex);
+    })
+    
+  }
   return <article className="review">
       <div className="img-container">
         <img src={image} alt={name} className="person-img"/>
@@ -14,10 +43,10 @@ const Review = () => {
         <p className="job">{job}</p>
         <p className="info">{text}</p>
         <div className="button-container">
-          <button className="prev-btn"><FaChevronLeft/></button>
-          <button className="next-btn"><FaChevronRight/></button>
+          <button className="prev-btn" onClick={prevPerson}><FaChevronLeft/></button>
+          <button className="next-btn" onClick={nextPerson}><FaChevronRight/></button>
         </div>
-        <button className="random-btn">Surprise Me!</button>
+        <button className="random-btn" onClick={randPerson}>Surprise Me!</button>
   </article>
 };
 
